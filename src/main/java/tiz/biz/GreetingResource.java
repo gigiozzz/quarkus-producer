@@ -1,8 +1,6 @@
 package tiz.biz;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import java.io.File;
@@ -30,6 +28,21 @@ public class GreetingResource {
 
         return new MultipartDto("test text", file);
     }
+
+    @POST
+    @Path("/multipart-post")
+    @Produces(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public MultipartDto getMultipartPost(String myName) throws IOException {
+        File file = File.createTempFile("abc", "txt");
+
+        var writer = new FileWriter(file);
+        writer.write("Test ABC");
+        writer.close();
+
+        return new MultipartDto("hello "+myName, file);
+    }
+
 }
 
 
